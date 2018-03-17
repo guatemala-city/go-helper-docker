@@ -31,15 +31,16 @@ try {
                 if (!env.BRANCH_NAME.toLowerCase().startsWith("master"))
                     tag = tag + '-' + env.BUILD_ID
 
-                imgae = docker.build("${repository}:${tag}",
-                        "--build-arg BRANCH_NAME='${env.BRANCH_NAME}' " +
-                                "--build-arg COMMIT_ID='${env.COMMIT_ID}' " +
-                                "--build-arg BUILD_ID='${env.BUILD_ID}'" +
-                                "--build-arg JENKINS_URL='${env.JENKINS_URL}'" +
-                                "--build-arg JOB_NAME='${env.JOB_NAME}' " +
-                                "--build-arg NODE_NAME='${env.NODE_NAME}'" +
-                                "--file '${WORKSPACE}/${WORKDIR}/Dockerfile'"
-                )
+                sh(script: "docker build -t ${repository}:${tag}" +
+                        " --build-arg BRANCH_NAME='${env.BRANCH_NAME}'" +
+                        " --build-arg COMMIT_ID='${env.COMMIT_ID}' " +
+                        " --build-arg BUILD_ID='${env.BUILD_ID}'  " +
+                        " --build-arg JENKINS_URL='${env.JENKINS_URL}' " +
+                        " --build-arg JOB_NAME='${env.JOB_NAME}' " +
+                        " --build-arg NODE_NAME='${env.NODE_NAME}' " +
+                        " '${WORKSPACE}/${WORKDIR}/'", returnStdout: true).trim()
+
+                image = docker.image(repository + ':' + tag)
             }
 
             docker.withRegistry("https://${env.DOCKER_REGISTRY_HOST}", env.DOCKER_REGISTRY_CREDENTIALS_ID) {
