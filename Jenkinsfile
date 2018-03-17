@@ -2,7 +2,7 @@
 try {
     node('docker') {
 
-        def docker_registry_host = env.DOCKER_REGISTRY_HOST ?: 'index.docker.io/v1/'
+        def docker_registry_host = env.DOCKER_REGISTRY_HOST ?: 'index.docker.io/v2/'
         def docker_registry_credentials_id = env.DOCKER_REGISTRY_CREDENTIALS_ID?: 'dockerhub_cred'
         def uniqueWorkspace = "build-" +env.BUILD_ID
 
@@ -56,9 +56,7 @@ try {
             }
 
             stage('Cleanup') {
-                sh "docker image rm ${repository}:${tag}" +
-                        " ${env.DOCKER_REGISTRY_HOST}/${repository}:${tag}" +
-                        " ${env.DOCKER_REGISTRY_HOST}/${repository}"
+                sh "docker image rm ${repository}:${tag}"
             }
 
         }
