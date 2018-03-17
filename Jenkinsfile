@@ -2,7 +2,7 @@
 try {
     node('docker') {
 
-        def docker_registry_host = env.DOCKER_REGISTRY_HOST ?: 'registry.hub.docker.com'
+        def docker_registry_host = env.DOCKER_REGISTRY_HOST ?: 'index.docker.io/v1/'
         def docker_registry_credentials_id = env.DOCKER_REGISTRY_CREDENTIALS_ID?: 'dockerhub_cred'
         def uniqueWorkspace = "build-" +env.BUILD_ID
 
