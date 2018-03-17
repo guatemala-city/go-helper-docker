@@ -38,7 +38,7 @@ try {
                                 "--build-arg JENKINS_URL='${env.JENKINS_URL}'" +
                                 "--build-arg JOB_NAME='${env.JOB_NAME}' " +
                                 "--build-arg NODE_NAME='${env.NODE_NAME}'" +
-                                " '${WORKDIR}/Dockerfile'"
+                                "--file '${WORKDIR}/Dockerfile'"
                 )
             }
 
